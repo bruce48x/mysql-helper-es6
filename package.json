@@ -1,0 +1,12 @@
+{
+  "name": "mysql-helper-es6",
+  "version": "0.1.0",
+  "description": "mysql helper use async / await",
+  "main": "index.js",
+  "keywords": [
+    "mysql",
+    "async"
+  ],
+  "author": "bruce48x",
+  "license": "MIT"
+}
