@@ -8,5 +8,9 @@
     "async"
   ],
   "author": "bruce48x",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "~4.17.10",
+    "mysql": "~2.15.0"
+  }
 }
