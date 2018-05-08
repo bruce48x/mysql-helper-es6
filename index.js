@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const lodash = require('lodash');
 
-class mysqlHelper {
+class MysqlHelper {
     constructor(mysqlConfig) {
         this._pool = mysql.createPool({
             host: mysqlConfig.host,
@@ -13,10 +13,10 @@ class mysqlHelper {
     };
 
     static getInstance(mysqlConfig) {
-        if (!mysqlHelper.instance) {
-            mysqlHelper.instance = new mysqlHelper(mysqlConfig);
+        if (!MysqlHelper.instance) {
+            MysqlHelper.instance = new MysqlHelper(mysqlConfig);
         }
-        return mysqlHelper.instance;
+        return MysqlHelper.instance;
     };
 
     /**
@@ -27,7 +27,7 @@ class mysqlHelper {
      * @param {Object | Array} args 参数
      * @private
      */
-    _query = function (sql, args) {
+    _query(sql, args) {
         return new Promise((resolve, reject) => {
             this._pool.getConnection(function (err, conn) {
                 if (err) {
@@ -68,7 +68,7 @@ class mysqlHelper {
      * @param {Number} limit 限制取几条
      * @return {*}
      */
-    select = async function (table, fields, args, limit) {
+    async select(table, fields, args, limit) {
         let fieldsStr = fields.join(', ');
         let sql = `select ${fieldsStr} from ${table}`;
         // condition 和 condArgs 可能为空数组
@@ -94,8 +94,7 @@ class mysqlHelper {
      * mysql select function
      * @param {String} table 表名
      * @param {Array} fields 字段名
-     * @param {Array} condition 条件
-     * @param {Array} condArgs 条件值
+     * @param {Object} args
      * @return {*}
      */
     async selectOne(table, fields, args) {
@@ -104,4 +103,4 @@ class mysqlHelper {
     };
 }
 
-module.exports = mysqlHelper;
+module.exports = MysqlHelper;
