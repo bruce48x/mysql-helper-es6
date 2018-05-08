@@ -1,7 +1,9 @@
 # mysql-helper-es6
 mysql 帮助类，支持 `async` / `await`
+
 在 Node.js v8.11.1 运行良好
 ## Usage
+### 创建连接
 ```javascript
 const mysqlHelper = require('mysql-helper-es6')
 const mysqlConfig = {
@@ -12,8 +14,9 @@ const mysqlConfig = {
     password: 123456
 };
 mysqlHelper.init(mysqlConfig);
-
-// 查询多条数据
+```
+### 查询多条数据
+```javascript
 // 第1种，promise 写法
 const tableName = 'my_table';
 const fields = ['name', 'age'];
@@ -38,8 +41,9 @@ const limit = 1;
         console.log(err.stack);
     }
 })();
-
-// 查询一条数据
+```
+### 查询一条数据
+```javascript
 // async / await 写法
 const tableName = 'my_table';
 const fields = ['name', 'age'];
@@ -52,8 +56,9 @@ const where = {id: 1};
         console.log(err.stack);
     }
 })();
-
-// 插入数据
+```
+### 插入数据
+```javascript
 // async / await 写法
 const tableName = 'my_table';
 const values = {name: 'bruce', age: 28};
