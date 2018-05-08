@@ -1,5 +1,6 @@
 # mysql-helper-es6
 mysql 帮助类，支持 `async` / `await`
+在 Node.js v8.11.1 运行良好
 ## Usage
 ```javascript
 const mysqlHelper = require('mysql-helper-es6')
