@@ -13,19 +13,55 @@ const mysqlConfig = {
 };
 mysqlHelper.init(mysqlConfig);
 
-// 查询一条或多条数据
-// 第1种写法
-mysqlHelper.select('table_name', ['*'], {field1: 1, field2: 2})
+// 查询多条数据
+// 第1种，promise 写法
+const tableName = 'my_table';
+const fields = ['name', 'age'];
+const where = {id: 1};
+const limit = 1;
+mysqlHelper.select(tableName, fields, where, limit)
     .then((values)=>{
         console.log(`val = ${values}`);
     }).catch((err)=>{
         console.log(err.stack);
     });
-// 第2种写法
-try {
-    let values = await mysqlHelper.select('table_name', ['*'], {field1: 1, field2: 2});
-    console.log(`val = ${values}`);
-} catch (err) {
-    console.log(err.stack);
-}
+// 第2种，async / await 写法
+const tableName = 'my_table';
+const fields = ['name', 'age'];
+const where = {id: 1};
+const limit = 1;
+(async () => {
+    try {
+        let values = await mysqlHelper.select(tableName, fields, where, limit);
+        console.log(`val = ${values}`);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
+
+// 查询一条数据
+// async / await 写法
+const tableName = 'my_table';
+const fields = ['name', 'age'];
+const where = {id: 1};
+(async () => {
+    try {
+        let values = await mysqlHelper.selectOne(tableName, fields, where);
+        console.log(`val = ${values}`);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
+
+// 插入数据
+// async / await 写法
+const tableName = 'my_table';
+const values = {name: 'bruce', age: 28};
+(async () => {
+    try {
+        let insertId = await mysqlHelper.insertInto(tableName, values);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
 ```
