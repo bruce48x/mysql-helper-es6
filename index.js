@@ -56,8 +56,8 @@ class MysqlHelper {
      */
     async insertInto(table, values) {
         let sql = `insert into ${table} set ?`;
-        let {res} = await this._query(sql, values);
-        return res.insertId;
+        let {results} = await this._query(sql, values);
+        return results.insertId;
     };
 
     /**
