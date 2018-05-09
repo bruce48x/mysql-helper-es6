@@ -77,9 +77,7 @@ class MysqlHelper {
             let condition = Object.keys(where);
             condArgs = Object.values(where);
             if (condition && condition.length > 0 && condArgs && condArgs.length > 0) {
-                let conditionStr = ' ' + condition.join(' = ? and ');
-                conditionStr += ' = ?';
-                sql += conditionStr;
+                sql += ' where ' + condition.join(' = ? and ') + ' = ?';
             }
         }
         // limit 可能为空
