@@ -64,18 +64,18 @@ class MysqlHelper {
      * mysql select function
      * @param {String} table 表名
      * @param {Array} fields 字段名
-     * @param {Object} args
+     * @param {Object} where
      * @param {Number} limit 限制取几条
      * @return {*}
      */
-    async select(table, fields, args, limit) {
+    async select(table, fields, where, limit) {
         let fieldsStr = fields.join(', ');
         let sql = `select ${fieldsStr} from ${table}`;
         // condition 和 condArgs 可能为空数组
         let condArgs;
-        if (!lodash.isEmpty(args)) {
-            let condition = Object.keys(args);
-            condArgs = Object.values(args);
+        if (!lodash.isEmpty(where)) {
+            let condition = Object.keys(where);
+            condArgs = Object.values(where);
             if (condition && condition.length > 0 && condArgs && condArgs.length > 0) {
                 let conditionStr = ' ' + condition.join(' = ? and ');
                 conditionStr += ' = ?';
@@ -94,13 +94,41 @@ class MysqlHelper {
      * mysql select function
      * @param {String} table 表名
      * @param {Array} fields 字段名
-     * @param {Object} args
+     * @param {Object} where
      * @return {*}
      */
-    async selectOne(table, fields, args) {
-        let res = await this.select(table, fields, args, 1);
+    async selectOne(table, fields, where) {
+        let res = await this.select(table, fields, where, 1);
         return res[0];
     };
+
+    /**
+     * mysql update function
+     * @param table
+     * @param values
+     * @param where
+     * @return {Promise<*>}
+     */
+    async update(table, values, where) {
+        let sql = `update ${table} set `;
+        // 转 values 为 sql
+        let keys, vals, args = [];
+        keys = Object.keys(values);
+        vals = Object.values(values);
+        if (keys && keys.length > 0 && vals && vals.length > 0) {
+            sql += ' ' + keys.join(' = ? and ') + ' = ?';
+            args = [...vals];
+        }
+        // 转 where 为 sql
+        keys = Object.keys(where);
+        vals = Object.values(where);
+        if (keys && keys.length > 0 && vals && vals.length > 0) {
+            sql += ' where ' + keys.join(' = ? and ') + ' = ?';
+            args = [...args, ...vals];
+        }
+        let {results} = await this._query(sql, args);
+        return results;
+    }
 }
 
 module.exports = MysqlHelper;
