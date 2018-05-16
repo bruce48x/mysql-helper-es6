@@ -70,3 +70,34 @@ const values = {name: 'bruce', age: 28};
     }
 })();
 ```
+
+### 更新数据
+```javascript
+// async / await 写法
+const tableName = 'my_table';
+const values = {name: 'bruce'};
+const where = {id: 1};
+(async () => {
+    try {
+        let results = await mysqlHelper.update(tableName, values, where);
+        console.log(`res = ${results}`);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
+```
+
+### 删除数据
+```javascript
+// async / await 写法
+const tableName = 'my_table';
+const where = {id: 1};
+(async () => {
+    try {
+        let affectedRows = await mysqlHelper.delete(tableName, where);
+        console.log(`res = ${affectedRows}`);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
+```

@@ -102,9 +102,9 @@ class MysqlHelper {
 
     /**
      * mysql update function
-     * @param table
-     * @param values
-     * @param where
+     * @param {String} table
+     * @param {Object} values
+     * @param {Object} where
      * @return {Promise<*>}
      */
     async update(table, values, where) {
@@ -126,6 +126,31 @@ class MysqlHelper {
         }
         let {results} = await this._query(sql, args);
         return results;
+    }
+
+    /**
+     * delete function
+     * @param {String} table
+     * @param {Object} [where]
+     * @param {Number} [limit]
+     * @return {Promise<*>}
+     */
+    async delete(table, where, limit) {
+        let sql = `delete from ${table}`;
+        let args = [];
+        if (where) {
+            let keys = Object.keys(where);
+            let vals = Object.values(where);
+            if (keys && keys.length > 0 && vals && vals.length > 0) {
+                sql += ' where ' + keys.join(' = ? and ') + ' = ?';
+                args = [...vals];
+            }
+        }
+        if (limit) {
+            sql += ` limit ${limit}`;
+        }
+        let {results} = await this._query(sql, args);
+        return results.affectedRows;
     }
 }
 
