@@ -71,6 +71,20 @@ const values = {name: 'bruce', age: 28};
 })();
 ```
 
+### 插入或更新数据
+```javascript
+// async / await 写法
+const tableName = 'my_table';
+const values = {name: 'bruce', age: 28};
+(async () => {
+    try {
+        let insertId = await mysqlHelper.replaceInto(tableName, values);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
+```
+
 ### 更新数据
 ```javascript
 // async / await 写法

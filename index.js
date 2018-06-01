@@ -61,6 +61,18 @@ class MysqlHelper {
     };
 
     /**
+     * replace
+     * @param table 表名
+     * @param values
+     * @return {Promise<*|number>}
+     */
+    async replaceInto(table, values) {
+        let sql = `replace into ${table} set ?`;
+        let {results} = await this._query(sql, values);
+        return results.insertId;
+    }
+
+    /**
      * mysql select function
      * @param {String} table 表名
      * @param {Array} fields 字段名
