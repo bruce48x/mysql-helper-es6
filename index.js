@@ -126,7 +126,7 @@ class MysqlHelper {
         keys = Object.keys(values);
         vals = Object.values(values);
         if (keys && keys.length > 0 && vals && vals.length > 0) {
-            sql += ' ' + keys.join(' = ? and ') + ' = ?';
+            sql += ' ' + keys.join(' = ? , ') + ' = ?';
             args = [...vals];
         }
         // 转 where 为 sql
