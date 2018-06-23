@@ -3,15 +3,14 @@ const lodash = require('lodash');
 
 class MysqlHelper {
     constructor(mysqlConfig) {
-        this._pool = mysql.createPool({
-            host: mysqlConfig.host,
-            user: mysqlConfig.user,
-            password: mysqlConfig.password,
-            database: mysqlConfig.database,
-            port: mysqlConfig.port
-        });
+        this._pool = mysql.createPool(mysqlConfig);
     };
 
+    /**
+     * 获取 mysqlHelper 单例对象
+     * @param {Object} mysqlConfig 
+     * @returns {MysqlHelper} 
+     */
     static getInstance(mysqlConfig) {
         if (!MysqlHelper.instance) {
             MysqlHelper.instance = new MysqlHelper(mysqlConfig);
@@ -23,7 +22,7 @@ class MysqlHelper {
      * 查询 mysql
      * 不要直接使用这个函数
      * 而应该用 insertInto / select / selectOne 等函数
-     * @param {String} sql sql语句
+     * @param {string} sql sql语句
      * @param {Object | Array} args 参数
      * @private
      */
@@ -49,8 +48,8 @@ class MysqlHelper {
     };
 
     /**
-     * mysql insert function
-     * @param {String} table 表名
+     * 插入
+     * @param {string} table 表名
      * @param {Object} values
      * @return {*}
      */
@@ -59,6 +58,19 @@ class MysqlHelper {
         let {results} = await this._query(sql, values);
         return results.insertId;
     };
+
+    /**
+     * 批量插入
+     * @param {string} table 
+     * @param {Array} fieldsArr 
+     * @param {Array} valueArr 
+     */
+    async batchInsertInto(table, fieldsArr, valueArr) {
+        const fieldStr = fieldsArr.join(',');
+        const sql = `insert into ${table} (${fieldStr}) values ?`;
+        const {results} = await this._query(sql, [valueArr]);
+        return results;
+    }
 
     /**
      * replace
@@ -74,7 +86,7 @@ class MysqlHelper {
 
     /**
      * mysql select function
-     * @param {String} table 表名
+     * @param {string} table 表名
      * @param {Array} fields 字段名
      * @param {Object} where
      * @param {Number} limit 限制取几条
@@ -102,7 +114,7 @@ class MysqlHelper {
 
     /**
      * mysql select function
-     * @param {String} table 表名
+     * @param {string} table 表名
      * @param {Array} fields 字段名
      * @param {Object} where
      * @return {*}
@@ -114,7 +126,7 @@ class MysqlHelper {
 
     /**
      * mysql update function
-     * @param {String} table
+     * @param {string} table
      * @param {Object} values
      * @param {Object} where
      * @return {Promise<*>}
@@ -142,7 +154,7 @@ class MysqlHelper {
 
     /**
      * delete function
-     * @param {String} table
+     * @param {string} table
      * @param {Object} [where]
      * @param {Number} [limit]
      * @return {Promise<*>}

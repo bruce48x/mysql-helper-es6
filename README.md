@@ -69,6 +69,28 @@ const values = {name: 'bruce', age: 28};
         console.log(err.stack);
     }
 })();
+
+```
+### 批量插入数据
+```javascript
+// async / await 写法
+const tableName = 'my_table';
+const fieldsArr = ['name', 'age'];
+const valueArr = [
+    ['bruce', 28],
+    ['chris', 29],
+    ['doris', 30]
+];
+(async () => {
+    try {
+        let results = await mysqlHelper.batchInsertInto(tableName, fieldsArr, valueArr);
+        for (let r of results) {
+            console.log('inserted id =', r.insertId);
+        }
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
 ```
 
 ### 插入或更新数据
