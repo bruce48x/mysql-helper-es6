@@ -41,7 +41,10 @@ class MysqlHelper {
                     //释放连接
                     conn.release();
                     //事件驱动回调
-                    resolve({results: results, fields: fields});
+                    resolve({
+                        results: results,
+                        fields: fields
+                    });
                 });
             });
         });
@@ -55,7 +58,9 @@ class MysqlHelper {
      */
     async insertInto(table, values) {
         let sql = `insert into ${table} set ?`;
-        let {results} = await this._query(sql, values);
+        let {
+            results
+        } = await this._query(sql, values);
         return results.insertId;
     };
 
@@ -68,7 +73,9 @@ class MysqlHelper {
     async batchInsertInto(table, fieldsArr, valueArr) {
         const fieldStr = fieldsArr.join(',');
         const sql = `insert into ${table} (${fieldStr}) values ?`;
-        const {results} = await this._query(sql, [valueArr]);
+        const {
+            results
+        } = await this._query(sql, [valueArr]);
         return results;
     }
 
@@ -80,7 +87,9 @@ class MysqlHelper {
      */
     async replaceInto(table, values) {
         let sql = `replace into ${table} set ?`;
-        let {results} = await this._query(sql, values);
+        let {
+            results
+        } = await this._query(sql, values);
         return results.insertId;
     }
 
@@ -89,7 +98,7 @@ class MysqlHelper {
      * @param {string} table 表名
      * @param {Array} fields 字段名
      * @param {Object} where
-     * @param {Number} limit 限制取几条
+     * @param {number} limit 限制取几条
      * @return {*}
      */
     async select(table, fields, where, limit) {
@@ -98,17 +107,31 @@ class MysqlHelper {
         // condition 和 condArgs 可能为空数组
         let condArgs;
         if (!lodash.isEmpty(where)) {
-            let condition = Object.keys(where);
-            condArgs = Object.values(where);
-            if (condition && condition.length > 0 && condArgs && condArgs.length > 0) {
-                sql += ' where ' + condition.join(' = ? and ') + ' = ?';
+            condArgs = [];
+            let condition = [];
+            for (let cond in where) {
+                if (!where.hasOwnProperty(cond)) {
+                    continue;
+                }
+                if (typeof where[cond] === 'object') {
+                    for (let i in where[cond]) {
+                        condArgs.push(where[cond][i]);
+                        condition.push(`${cond} ${i} ?`);
+                    }
+                } else {
+                    condArgs.push(where[cond]);
+                    condition.push(cond + ' = ? ');
+                }
             }
+            sql += ' where ' + condition.join(' and ');
         }
         // limit 可能为空
         if (limit) {
             sql += ` limit ${limit}`;
         }
-        let {results} = await this._query(sql, condArgs);
+        let {
+            results
+        } = await this._query(sql, condArgs);
         return results;
     };
 
@@ -148,7 +171,9 @@ class MysqlHelper {
             sql += ' where ' + keys.join(' = ? and ') + ' = ?';
             args = [...args, ...vals];
         }
-        let {results} = await this._query(sql, args);
+        let {
+            results
+        } = await this._query(sql, args);
         return results;
     }
 
@@ -173,7 +198,9 @@ class MysqlHelper {
         if (limit) {
             sql += ` limit ${limit}`;
         }
-        let {results} = await this._query(sql, args);
+        let {
+            results
+        } = await this._query(sql, args);
         return results.affectedRows;
     }
 }

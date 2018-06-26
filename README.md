@@ -42,6 +42,25 @@ const limit = 1;
     }
 })();
 ```
+### 更复杂的查询
+```javascript
+const tableName = 'my_table';
+const fields = ['name', 'age'];
+// 范围查询
+const where = {id: {
+    '>=': 1,
+    '<': 10
+}};
+const limit = 1;
+(async () => {
+    try {
+        let values = await mysqlHelper.select(tableName, fields, where, limit);
+        console.log(`val = ${values}`);
+    } catch (err) {
+        console.log(err.stack);
+    }
+})();
+```
 ### 查询一条数据
 ```javascript
 // async / await 写法
