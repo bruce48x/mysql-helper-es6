@@ -2,10 +2,6 @@ const mysql = require("mysql");
 const lodash = require('lodash');
 
 class MysqlHelper {
-    constructor(mysqlConfig) {
-        this._pool = mysql.createPool(mysqlConfig);
-    };
-
     /**
      * 获取 mysqlHelper 单例对象
      * @param {Object} mysqlConfig 
@@ -18,6 +14,19 @@ class MysqlHelper {
         return MysqlHelper.instance;
     };
 
+    constructor(mysqlConfig) {
+        this._config = mysqlConfig;
+        this._pool = mysql.createPool(mysqlConfig);
+    };
+
+    /**
+     * 设定字符集
+     * 初始化后要调用此方法
+     */
+    async charset() {
+        const charset = this._config.charset || 'utf8mb4';
+        await this._query('set names ' + charset);
+    }
     /**
      * 查询 mysql
      * 不要直接使用这个函数

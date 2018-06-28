@@ -11,9 +11,11 @@ const mysqlConfig = {
     port: 3306,
     database: 'test'
     user: 'root',
-    password: 123456
+    password: 123456,
+    charset: 'utf8mb4'
 };
-mysqlHelper.init(mysqlConfig);
+mysqlHelper.getInstance(mysqlConfig);
+mysqlHelper.charset();
 ```
 ### 查询多条数据
 ```javascript
