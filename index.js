@@ -43,12 +43,12 @@ class MysqlHelper {
                     return;
                 }
                 conn.query(sql, args, function (err, results, fields) {
+                    //释放连接
+                    conn.release();
                     if (err) {
                         reject(err);
                         return;
                     }
-                    //释放连接
-                    conn.release();
                     //事件驱动回调
                     resolve({
                         results: results,
