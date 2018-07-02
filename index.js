@@ -1,7 +1,8 @@
 const mysql = require("mysql");
 const lodash = require('lodash');
+const EventEmitter = require('events');
 
-class MysqlHelper {
+class MysqlHelper extends EventEmitter {
     /**
      * 获取 mysqlHelper 单例对象
      * @param {Object} mysqlConfig 
@@ -15,8 +16,21 @@ class MysqlHelper {
     };
 
     constructor(mysqlConfig) {
+        super();
         this._config = mysqlConfig;
         this._pool = mysql.createPool(mysqlConfig);
+        this._pool.on('acquire', (conn) => {
+            this.emit('acquire', conn);
+        });
+        this._pool.on('connection', (conn) => {
+            this.emit('connection', conn);
+        });
+        this._pool.on('enqueue', () => {
+            this.emit('enqueue');
+        });
+        this._pool.on('release', (conn) => {
+            this.emit('release', conn);
+        });
     };
 
     /**

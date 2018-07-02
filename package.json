@@ -1,6 +1,6 @@
 {
   "name": "mysql-helper-es6",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "mysql helper use async / await",
   "main": "index.js",
   "keywords": [
