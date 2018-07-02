@@ -20,14 +20,6 @@ class MysqlHelper {
     };
 
     /**
-     * 设定字符集
-     * 初始化后要调用此方法
-     */
-    async charset() {
-        const charset = this._config.charset || 'utf8mb4';
-        await this._query('set names ' + charset);
-    }
-    /**
      * 查询 mysql
      * 不要直接使用这个函数
      * 而应该用 insertInto / select / selectOne 等函数

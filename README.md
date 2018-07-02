@@ -12,7 +12,7 @@ const mysqlConfig = {
     database: 'test'
     user: 'root',
     password: 123456,
-    charset: 'utf8mb4'
+    charset: 'UTF8MB4_GENERAL_CI'
 };
 mysqlHelper.getInstance(mysqlConfig);
 mysqlHelper.charset();
