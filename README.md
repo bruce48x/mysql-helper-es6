@@ -1,7 +1,10 @@
 # mysql-helper-es6
 mysql 帮助类，支持 `async` / `await`
 
-在 Node.js v8.11.1 运行良好
+在 Node.js v8.x 运行良好
+
+最近的更新增加了对 `typescript` 的支持
+
 ## Usage
 ### 创建连接
 ```javascript
