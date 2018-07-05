@@ -14,5 +14,5 @@ export declare class MysqlHelper implements IMyEvent {
     selectOne(table: string, fields: any, where: any): Promise<any>;
     update(table: string, values: any, where: any): Promise<any>;
     delete(table: string, where: any, limit?: number): Promise<number>;
-    on();
+    on(event: string, listener: Function): this;
 }
