@@ -7,11 +7,12 @@ declare interface IMyEvent {
 export declare class MysqlHelper implements IMyEvent {
     static getInstance(config: any): MysqlHelper;
     constructor(config: any);
-    async insertInto(table: string, values: Map): number;
-    async batchInsertInto(table: string, fieldsArr: any, valueArr: any): any;
-    async replaceInto(table: string, values: any): number;
-    async select(table: string, fields: any, where: any, limit?: number): any;
-    async selectOne(table: string, fields: any, where: any): any;
-    async update(table: string, values: any, where: any): any;
-    async delete(table: string, where: any, limit?: number): number;
+    insertInto(table: string, values: any): Promise<number>;
+    batchInsertInto(table: string, fieldsArr: any, valueArr: any): Promise<any>;
+    replaceInto(table: string, values: any): Promise<number>;
+    select(table: string, fields: any, where: any, limit?: number): Promise<any>;
+    selectOne(table: string, fields: any, where: any): Promise<any>;
+    update(table: string, values: any, where: any): Promise<any>;
+    delete(table: string, where: any, limit?: number): Promise<number>;
+    on();
 }
