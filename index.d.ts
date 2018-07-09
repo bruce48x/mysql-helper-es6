@@ -5,7 +5,7 @@ declare interface IMyEvent {
     on(event: 'release', listener: (conn: any) => void): this;
 }
 export declare class MysqlHelper implements IMyEvent {
-    static getInstance(config: any): MysqlHelper;
+    static getInstance(config?: any): MysqlHelper;
     constructor(config: any);
     insertInto(table: string, values: any): Promise<number>;
     batchInsertInto(table: string, fieldsArr: any, valueArr: any): Promise<any>;

@@ -1,9 +1,17 @@
 # mysql-helper-es6
-mysql 帮助类，支持 `async` / `await`
+mysql 帮助类，用 es2017 语法编写
 
 在 Node.js v8.x 运行良好
 
-最近的更新增加了对 `typescript` 的支持
+### 0.2版本增加了对 `typescript` 的支持
+
+```typescript
+import { MysqlHelper } from 'mysql-helper-es6'
+//初始化
+MysqlHelper.getInstance({host: 'localhost', user: 'bruce'});
+// 在其他地方使用时
+MysqlHelper.getInstance().select('my_table', ['id', 'name'], {id: 1});
+```
 
 ## Usage
 ### 创建连接
